@@ -34,38 +34,62 @@
  *    a. Stampiamo il messaggio di alert del gioco (se hai vinto o perso)
  *    b. Stampiamo il punteggio del giocatore
  * 
- */
+*/
+
 
 let listaBombe = []; // Array vuoto che conterrà i numberi-bomba
-let listaNumeriScelti = []; // Arrey vuoto che conterrà i numeri già scelti dall'utente
 
 // Genero un numero-bomba casuale tra 1 e 100
 let numeroBomba = getRandomInt(1,100);
-console.log("Numeri bomba: " + numeroBomba);
+console.log("Numero bomba: " + numeroBomba);
 
-// Ciclo for che per 16 volte creerà un randomico-bomba
+// Ciclo for che per 16 volte creerà un randomico-bomba non ripetuto
+
+while ( listaBombe.length < 16 ) {
+
+    let numeroBomba = getRandomInt(1,100);
+    
+    if ( !listaBombe.includes(numeroBomba) )
+        listaBombe.push(numeroBomba);
+}
+
+/*
+* Soluzione con ciclo for vista a lezione ma non elegante (maschero il for da while),
+* i-- serve per tornare indietro dopo un'iterazione. Potrei anche dare "null" e poi i++ quando voglio che riprenda l'iter       
+*
 
 for (let i = 0; i < 16; i++){
     let numeroBomba = getRandomInt(1,100);
-    listaBombe.push(numeroBomba);
-    if (listaBombe[i] === numeroBomba){
-        let numeroBomba = getRandomInt(1,100);
+    if ( listaBombe.includes(numeroBomba) ){
+        i--
     } else {
         listaBombe.push(numeroBomba);
     }
 }
+*/
+
+console.log(listaBombe);
 
 
-
+let listaNumeriScelti = []; // Arrey vuoto che conterrà i numeri scelti dall'utente
 // Chiedo all'utente di inserire un numero tra 1 e 100
 let numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e 100"));
 
 // Itero finchè il carattere inserito dall'utente non è un numero
+/*
 while (isNaN(numeroUtente)){
     numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e 100"));
-}   
+}
+*/
 
-console.log(numeroUtente);
+while ( listaNumeriScelti.length < 16)  {  // tentativo di richiesta del numero :P
+    numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e 100"))
+    if ( !listaBombe.includes(numeroUtente) )
+    listaNumeriScelti.push(numeroUtente);
+}
+
+console.log("il numero scelto è: " + numeroUtente);
+console.log(listaNumeriScelti);
 
 
 
