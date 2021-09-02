@@ -39,8 +39,50 @@
 
 let listaBombe = [];            // array vuoto che conterrà i numeri-bomba
 
-let numeroBombe = 2;            // variabile di quanti sono i numeri-bomba
-let maxRandomNumber = 10;       // viariabile di quanti sono i numeri in totale presenti nel gioco
+let numeroBombe           // variabile di quanti sono i numeri-bomba
+let maxRandomNumber       // viariabile di quanti sono i numeri in totale presenti nel gioco
+let contatore             // variabile di quanti numeri ha a disposizione l'utente prima di vincere
+
+
+// Richiedo all'utente di scegliere un livello di difficoltà tra 3 possibili
+let livelloDiGioco = prompt("Inserisci un livello di difficoltà del gioco: 'facile', 'medio', 'difficile'");
+
+let listaLivelli = ["facile", "medio", "difficile"];  // array che contiene i 3 diversi livelli di difficoltà
+
+// Creo un ciclo while per far si che l'utente scelga una delle tre opzioni di difficoltà
+while (livelloDiGioco.length == 0 || !listaLivelli.includes (livelloDiGioco.trim().toLocaleLowerCase())){
+    livelloDiGioco = prompt("Opzione inesistente! Inserisci un livello di difficoltà del gioco: 'facile', 'medio', 'difficile'");
+}
+
+
+/*
+* Creo uno switch per i diversi livelli di difficoltà andando quindi a togliere le definizioni
+* alle variabili precedentemente inizializzate:
+*
+*   let numeroBombe = 2;
+*   let maxRandomNumber = 10;
+*   let contatore (livello di difficoltà) = maxRandomNumber - numeroBombe;
+*
+*/
+
+switch (livelloDiGioco){
+    case "facile":
+        numeroBombe = 2;        //  Questa sezione è inseribile in "default"
+        maxRandomNumber = 10;   // 
+        break;
+    case "medio":
+        numeroBombe = 4;
+        maxRandomNumber = 10;
+        break;
+    case "difficile":
+        numeroBombe = 6;
+        maxRandomNumber = 10;
+        break;
+    default:
+        "facile"
+}
+
+console.log("Il livello di difficoltà scelto è: " + livelloDiGioco);
 
 
 // Creo un ciclo while per generare una computazione di numeri da inserire nella lista di bombe
@@ -74,7 +116,7 @@ for (let i = 0; i < 16; i++){
 
 let listaScelte = [];           // array che conterrà i numeri scelti dall'utente
 
-let contatore = maxRandomNumber - numeroBombe;    // variabile di quanti numeri ha a disposizione l'utente prima di vincere
+// let contatore = maxRandomNumber - numeroBombe;    // variabile di quanti numeri ha a disposizione l'utente prima di vincere
 
 /*
 *
@@ -104,7 +146,7 @@ while ( listaScelte.length < contatore ){
         }
     }
     
-    if ( listaBombe.includes(numeroUtente) ){  // se capita 
+    if ( listaBombe.includes(numeroUtente) ){ 
         alert("DEFEAT! hai ottenuto: " + listaScelte.length + " punti.");
         listaScelte.length = contatore;
     }   else {
