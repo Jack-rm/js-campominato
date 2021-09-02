@@ -37,21 +37,22 @@
 */
 
 
-let listaBombe = []; // Array vuoto che conterrà i numberi-bomba
+let listaBombe = [];            // array vuoto che conterrà i numeri-bomba
 
-// Genero un numero-bomba casuale tra 1 e 100
-let numeroBomba = getRandomInt(1,100);
-console.log("Numero bomba: " + numeroBomba);
+let numeroBombe = 2;            // variabile di quanti sono i numeri-bomba
+let maxRandomNumber = 10;       // viariabile di quanti sono i numeri in totale presenti nel gioco
 
-// Ciclo for che per 16 volte creerà un randomico-bomba non ripetuto
 
-while ( listaBombe.length < 16 ) {
-
-    let numeroBomba = getRandomInt(1,100);
+// Creo un ciclo while per generare una computazione di numeri da inserire nella lista di bombe
+while ( listaBombe.length < numeroBombe){
+    let randomBomb = getRandomInt(1, maxRandomNumber);  // inizializzo una variabile per riutilizzarla nel ciclo (?)
     
-    if ( !listaBombe.includes(numeroBomba) )
-        listaBombe.push(numeroBomba);
+    if ( !listaBombe.includes(randomBomb) ){  // ( listaBombe.includes(randomNumber) == false )
+        listaBombe.push(randomBomb);
+    }
 }
+
+console.log("Numeri-bomba: " + listaBombe);
 
 /*
 * Soluzione con ciclo for vista a lezione ma non elegante (maschero il for da while),
@@ -68,32 +69,60 @@ for (let i = 0; i < 16; i++){
 }
 */
 
-console.log(listaBombe);
 
 
-let listaNumeriScelti = []; // Arrey vuoto che conterrà i numeri scelti dall'utente
-// Chiedo all'utente di inserire un numero tra 1 e 100
-let numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e 100"));
 
-// Itero finchè il carattere inserito dall'utente non è un numero
+let listaScelte = [];           // array che conterrà i numeri scelti dall'utente
+
+let contatore = maxRandomNumber - numeroBombe;    // variabile di quanti numeri ha a disposizione l'utente prima di vincere
+
 /*
-while (isNaN(numeroUtente)){
-    numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e 100"));
-}
+*
+* Creo un ciclo che richieda all'utente di inserire un numero tante volte quanto indicato dalla variabile "contatore"
+* Il while continua finchè il numero inserito è minore di 1 o maggiore di 100
+* finchè il numero inserito è un NaN
+* finchè il numero inserito è già presente nella lista dei numeri scelti
+*
 */
 
-while ( listaNumeriScelti.length < 16)  {  // tentativo di richiesta del numero :P
-    numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e 100"))
-    if ( !listaBombe.includes(numeroUtente) )
-    listaNumeriScelti.push(numeroUtente);
+while ( listaScelte.length < contatore ){
+    let numeroUtente = parseInt(prompt("Inserisci un numero tra 1 e " + maxRandomNumber));
+    
+    while ( numeroUtente < 1 || numeroUtente > maxRandomNumber || isNaN(numeroUtente) || (listaScelte.includes(numeroUtente) == true) ){
+        
+        /* 
+        * Utilizzo un if per analizzare ogni singolo caso che interrompe il while
+        * e generare un corrispettivo prompt per l'utente
+        */
+
+        if ( (listaScelte.includes(numeroUtente) == true) ){  
+            numeroUtente = parseInt(prompt("Hai già scelto " + numeroUtente + ", inserisci un nuovo numero"));
+        }   else if ( numeroUtente < 1 || numeroUtente > maxRandomNumber ) {
+            numeroUtente = parseInt(prompt("Il numero inserito è fuori scala, inserisci un numero tra 1 e " + maxRandomNumber))
+        }   else {
+            numeroUtente = parseInt(prompt("Il numero inserito non è valido, inserisci un numero tra 1 e " + maxRandomNumber));
+        }
+    }
+    
+    if ( listaBombe.includes(numeroUtente) ){  // se capita 
+        alert("DEFEAT! hai ottenuto: " + listaScelte.length + " punti.");
+        listaScelte.length = contatore;
+    }   else {
+        listaScelte.push(numeroUtente);
+        
+        if ( listaScelte.length == contatore ){
+            alert("VICTORY! hai ottenuto: " + listaScelte.length + " punti.");
+        }
+    }
 }
 
-console.log("il numero scelto è: " + numeroUtente);
-console.log(listaNumeriScelti);
+console.log("Numeri scelti dall'utente: " + listaScelte);
 
 
 
-// Funzione per generare un randomico tra 1 e 100
+//  #FUNZIONI
+
+// Generare un numero randomico
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
